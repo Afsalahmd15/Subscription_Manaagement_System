@@ -1,5 +1,6 @@
 package com.odoo.brightloop.controller;
 
+import com.odoo.brightloop.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,37 +9,42 @@ import org.springframework.ui.Model;
 @Controller
 public class RegisterController {
     
+    private final UserService userService;
+    public RegisterController(UserService userService){
+
+        this.userService = userService;
+    }
     @PostMapping("/register")
-public String register(
+    public String register(
         @RequestParam String email,
         @RequestParam String password,
         @RequestParam String confirmPassword,
         Model model) {
 
-    RegisterStatus status = userService.regUser(
+        userService.RegisterStatus status = userService.regUser(
             email, password, confirmPassword);
 
-    switch (status) {
+         switch (status) {
 
-        case REGISTER_SUCCESS:
-            model.addAttribute("registerUserSuccess",
+            case REGISTER_SUCCESS:
+                model.addAttribute("registerUserSuccess",
                     "Registration successful!");
-            return "index";
+                 return "index";
 
-        case EMAIL_EXISTS:
-            model.addAttribute("registerFailed",
+            case EMAIL_EXISTS:
+                model.addAttribute("registerFailed",
                     "Email already exists!");
-            return "register";
+                return "register";
 
-        case PASSWORD_MISSMATCH:
-            model.addAttribute("registerFailed",
+            case PASSWORD_MISSMATCH:
+                model.addAttribute("registerFailed",
                     "Passwords do not match!");
-            return "register";
+                 return "register";
 
-        default:
-            model.addAttribute("registerFailed",
+            default:
+                 model.addAttribute("registerFailed",
                     "Registration failed!");
-            return "register";
+                return "register";
     }
-}
+    }
 }
