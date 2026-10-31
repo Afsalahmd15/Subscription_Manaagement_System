@@ -71,4 +71,10 @@ public class UserController {
        
         return "index";
     }
+
+	@GetMapping("/register")
+	public String registerPage() {
+
+		return "register";
+	}
 }

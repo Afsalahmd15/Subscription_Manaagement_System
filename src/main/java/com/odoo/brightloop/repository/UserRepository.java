@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import com.odoo.brightloop.database.DBConnection;
 import com.odoo.brightloop.model.UserModel;
 
+
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class UserRepository {
     
     public UserModel findUserByEmail(
@@ -23,7 +27,7 @@ public class UserRepository {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 UserModel user = new UserModel();
-                user.setUserId(rs.getInt("user_id"));
+                user.setUserId(rs.getInt("id"));
                 user.setEmailId(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
