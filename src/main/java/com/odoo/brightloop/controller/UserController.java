@@ -40,7 +40,12 @@ public class UserController {
         session.setAttribute("emailId", user.getEmailId());
         session.setAttribute("role", user.getRole());
 
-        return "home";
+		if (user.getRole().equals("ADMIN")) {
+
+			return "redirect:/admin";
+		}
+
+        return "redirect:/home";
     }
 
     @GetMapping("/home")
@@ -79,14 +84,12 @@ public class UserController {
 	}
 
 	@GetMapping("/admin")
-	public String adminDashboard(HttpSession session, Model model) {
+	public String adminDashboard(HttpSession session) {
 
 		if (!"ADMIN".equals(session.getAttribute("role"))) {
 			return "redirect:/";
 		}
 
-		model.addAttribute("products", productService.getAllProducts());
-
-		return "admin/admin";
+		return "admin";
 	}
 }

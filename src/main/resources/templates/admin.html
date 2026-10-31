@@ -15,7 +15,7 @@
     <!-- ADD PRODUCT -->
     <h2>Add Product</h2>
 
-    <form th:action="@{/admin/products/add}" method="post">
+	<form th:action="@{/}" method="post">
 
         <label>Product Name:</label>
         <input type="text" name="name" required>
@@ -68,7 +68,7 @@
     <!-- ADD PLAN -->
     <h2>Add Subscription Plan</h2>
 
-    <form th:action="@{/admin/plans/add}" method="post">
+	<form th:action="@{/}" method="post">
 
         <label>Select Product:</label>
         <select name="productId" required>
