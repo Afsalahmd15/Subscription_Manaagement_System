@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Repository;
+
 import com.odoo.brightloop.database.DBConnection;
 import com.odoo.brightloop.model.UserModel;
 
+@Repository 
 public class UserRepository {
     
     public UserModel findUserByEmail(
@@ -20,19 +23,46 @@ public class UserRepository {
         ){
             ps.setString(1,email);
 
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                UserModel user = new UserModel();
-                user.setUserId(rs.getInt("user_id"));
-                user.setEmailId(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setRole(rs.getString("role"));
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    UserModel user = new UserModel();
 
-                return user;
+                    user.setUserId(rs.getInt("user_id"));
+                    user.setEmailId(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setRole(rs.getString("role"));
+
+                    return user;
+                }
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean regUser(
+        String email, String password
+    ) {
+
+        String query = "INSERT INTO users (email, password) VALUES (?, ?)";
+
+        try (
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)
+        ) {
+
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
