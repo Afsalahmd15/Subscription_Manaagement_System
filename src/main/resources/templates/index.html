@@ -66,5 +66,8 @@
     </p>
 
 </body>
+    <script th:if="${LoginFailed}">
+        alert("[[${LoginFailed}]]");
+    </script>
 </html>
 
