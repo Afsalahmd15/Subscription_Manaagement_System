@@ -27,7 +27,7 @@ public class UserRepository {
                 if(rs.next()){
                     UserModel user = new UserModel();
 
-                    user.setUserId(rs.getInt("user_id"));
+                    user.setUserId(rs.getInt("id"));
                     user.setEmailId(rs.getString("email"));
                     user.setPassword(rs.getString("password"));
                     user.setRole(rs.getString("role"));
@@ -45,7 +45,7 @@ public class UserRepository {
         String email, String password
     ) {
 
-        String query = "INSERT INTO users (email, password) VALUES (?, ?)";
+        String query = "INSERT INTO users (email, password, role) VALUES (?, ?, ?)";
 
         try (
             Connection conn = DBConnection.getConnection();
@@ -54,6 +54,7 @@ public class UserRepository {
 
             ps.setString(1, email);
             ps.setString(2, password);
+            ps.setString(3, "USER");
 
             int rows = ps.executeUpdate();
 
