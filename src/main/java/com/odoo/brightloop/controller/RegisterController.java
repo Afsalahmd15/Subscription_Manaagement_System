@@ -21,7 +21,7 @@ public class RegisterController {
         @RequestParam String confirmPassword,
         Model model) {
 
-        userService.RegisterStatus status = userService.regUser(
+        UserService.RegisterStatus status = userService.regUser(
             email, password, confirmPassword);
 
          switch (status) {
