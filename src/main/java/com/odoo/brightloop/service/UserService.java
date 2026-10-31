@@ -14,7 +14,7 @@ public class UserService {
 
     public UserModel login(String emailId, String password) {
 
-        UserModel user = userRepository.findByEmail(emailId);
+        UserModel user = userRepository.findUserByEmail(emailId);
 
         if (user == null) {
             return null;
