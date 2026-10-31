@@ -34,7 +34,7 @@
     </p>
 
     <script th:if="${LoginFailed}" th:inline="javascript">
-        alert([[${LoginFailed}]]);
+        alert("[[${LoginFailed}]]");
     </script>
     <script th:if="${registerUserSuccess}">
         alert("[[${registerUserSuccess}]]");
