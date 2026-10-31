@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brightloop | Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="home-page">
+
+    <header class="topbar">
+        <div class="topbar-brand">Brightloop</div>
+
+        <div class="topbar-right">
+            <span class="user-label"
+                  th:text="${session.emailId}">User Email</span>
+            <a th:href="@{/logout}" class="logout-link">Logout</a>
+        </div>
+    </header>
+
+    <main class="home-container">
+
+        <section class="welcome-section">
+            <p class="eyebrow">CUSTOMER PORTAL</p>
+            <h1>Welcome to Brightloop</h1>
+            <p>
+                Manage your subscriptions, keep track of invoices
+                and stay up to date with your account.
+            </p>
+        </section>
+
+        <section class="home-section">
+            <h2>Your Account</h2>
+
+            <div class="home-card-grid">
+
+                <div class="home-card">
+                    <div class="card-icon">01</div>
+                    <h3>Subscriptions</h3>
+                    <p>
+                        View your subscription details and manage
+                        your current plans.
+                    </p>
+                    <span class="coming-soon">Coming soon</span>
+                </div>
+
+                <div class="home-card">
+                    <div class="card-icon">02</div>
+                    <h3>Invoices</h3>
+                    <p>
+                        Keep track of your invoices and payment history.
+                    </p>
+                    <span class="coming-soon">Coming soon</span>
+                </div>
+
+                <div class="home-card">
+                    <div class="card-icon">03</div>
+                    <h3>Account Details</h3>
+                    <p>
+                        View your registered account information.
+                    </p>
+                    <span class="account-email"
+                          th:text="${session.emailId}">user@email.com</span>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="admin-access"
+                 th:if="${session.role == 'ADMIN'}">
+
+            <div>
+                <h2>Administration</h2>
+                <p>Manage products and subscription plans.</p>
+            </div>
+
+            <a th:href="@{/admin}" class="btn-primary">
+                Open Admin Dashboard
+            </a>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        Brightloop Subscription Management System
+    </footer>
+
+</body>
+</html>

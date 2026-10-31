@@ -1,151 +1,211 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brightloop Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body class="admin-page">
 
-    <h1>Admin Dashboard</h1>
+    <header class="topbar">
+        <div class="topbar-brand">Brightloop</div>
 
-    <p>Welcome, Admin!</p>
+        <div class="topbar-right">
+            <span class="admin-label">Administrator</span>
+            <a th:href="@{/logout}" class="logout-link">Logout</a>
+        </div>
+    </header>
 
-    <hr>
+    <main class="admin-container">
 
-    <!-- ADD PRODUCT -->
-    <h2>Add Product</h2>
+        <div class="page-heading">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Manage your products and subscription plans.</p>
+            </div>
+        </div>
 
-    <form th:action="@{/admin/products/add}" method="post">
+        <section class="admin-section">
+            <div class="section-heading">
+                <div>
+                    <h2>Add Product</h2>
+                    <p>Enter the details of the product you want to offer.</p>
+                </div>
+            </div>
 
-        <label>Product Name:</label>
-        <input type="text" name="name" required>
+            <form class="admin-form" th:action="@{/admin/products/add}" method="post">
 
-        <br><br>
+                <div class="form-grid">
 
-        <label>Product Type:</label>
-        <input type="text" name="type" required>
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name"
+                               placeholder="Enter product name" required>
+                    </div>
 
-        <br><br>
+                    <div class="form-group">
+                        <label>Product Type</label>
+                        <input type="text" name="type"
+                               placeholder="Enter product type" required>
+                    </div>
 
-        <label>Sales Price:</label>
-        <input type="number" name="salesPrice" step="0.01" required>
+                    <div class="form-group">
+                        <label>Sales Price</label>
+                        <input type="number" name="salesPrice"
+                               step="0.01" min="0"
+                               placeholder="0.00" required>
+                    </div>
 
-        <br><br>
+                    <div class="form-group">
+                        <label>Cost Price</label>
+                        <input type="number" name="costPrice"
+                               step="0.01" min="0"
+                               placeholder="0.00" required>
+                    </div>
 
-        <label>Cost Price:</label>
-        <input type="number" name="costPrice" step="0.01" required>
+                    <div class="form-group full-width">
+                        <label>Notes</label>
+                        <textarea name="notes"
+                                  placeholder="Additional product information"></textarea>
+                    </div>
 
-        <br><br>
+                </div>
 
-        <label>Notes:</label>
-        <textarea name="notes"></textarea>
+                <div class="variant-section">
+                    <h3>Product Variant</h3>
+                    <p class="section-note">
+                        Add an optional variant and its additional price.
+                    </p>
 
-        <br><br>
+                    <div class="form-grid">
 
-        <h3>Product Variant</h3>
+                        <div class="form-group">
+                            <label>Variant Name</label>
+                            <input type="text" name="variantName"
+                                   placeholder="e.g. Brand">
+                        </div>
 
-        <label>Variant Name:</label>
-        <input type="text" name="variantName" placeholder="Brand">
+                        <div class="form-group">
+                            <label>Variant Value</label>
+                            <input type="text" name="variantValue"
+                                   placeholder="e.g. Odoo">
+                        </div>
 
-        <br><br>
+                        <div class="form-group">
+                            <label>Additional Price</label>
+                            <input type="number" name="additionalPrice"
+                                   step="0.01" min="0" value="0">
+                        </div>
 
-        <label>Variant Value:</label>
-        <input type="text" name="variantValue" placeholder="Odoo">
+                    </div>
+                </div>
 
-        <br><br>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Add Product</button>
+                </div>
 
-        <label>Additional Price:</label>
-        <input type="number" name="additionalPrice" step="0.01" value="0">
+            </form>
+        </section>
 
-        <br><br>
+        <section class="admin-section">
+            <div class="section-heading">
+                <div>
+                    <h2>Add Subscription Plan</h2>
+                    <p>Configure pricing, billing and plan availability.</p>
+                </div>
+            </div>
 
-        <button type="submit">Add Product</button>
+            <form class="admin-form" th:action="@{/admin/plans/add}" method="post">
 
-    </form>
+                <div class="form-grid">
 
-    <hr>
+                    <div class="form-group full-width">
+                        <label>Select Product</label>
+                        <select name="productId" required>
+                            <option value="">Select Product</option>
+                            <option th:each="product : ${products}"
+                                    th:value="${product.id}"
+                                    th:text="${product.name}">
+                            </option>
+                        </select>
+                    </div>
 
-    <!-- ADD PLAN -->
-    <h2>Add Subscription Plan</h2>
+                    <div class="form-group">
+                        <label>Plan Price</label>
+                        <input type="number" name="price"
+                               step="0.01" min="0"
+                               placeholder="0.00" required>
+                    </div>
 
-    <form th:action="@{/admin/plans/add}" method="post">
+                    <div class="form-group">
+                        <label>Billing Interval</label>
+                        <select name="billingInterval" required>
+                            <option value="DAILY">Daily</option>
+                            <option value="WEEKLY">Weekly</option>
+                            <option value="MONTHLY">Monthly</option>
+                            <option value="YEARLY">Yearly</option>
+                        </select>
+                    </div>
 
-        <label>Select Product:</label>
-        <select name="productId" required>
-            <option value="">Select Product</option>
-            <option th:each="product : ${products}"
-                    th:value="${product.id}"
-                    th:text="${product.name}">
-            </option>
-        </select>
+                    <div class="form-group">
+                        <label>Minimum Quantity</label>
+                        <input type="number" name="minQuantity"
+                               min="1" value="1" required>
+                    </div>
 
-        <br><br>
+                    <div class="form-group">
+                        <label>Available From</label>
+                        <input type="date" name="availableFrom" required>
+                    </div>
 
-        <label>Plan Price:</label>
-        <input type="number" name="price" step="0.01" required>
+                    <div class="form-group">
+                        <label>Available Until</label>
+                        <input type="date" name="availableUntil" required>
+                    </div>
 
-        <br><br>
+                </div>
 
-        <label>Billing Interval:</label>
-        <select name="billingInterval" required>
-            <option value="DAILY">Daily</option>
-            <option value="WEEKLY">Weekly</option>
-            <option value="MONTHLY">Monthly</option>
-            <option value="YEARLY">Yearly</option>
-        </select>
+                <div class="permissions-section">
+                    <h3>Plan Permissions</h3>
+                    <p class="section-note">
+                        Choose which actions customers can perform on this plan.
+                    </p>
 
-        <br><br>
+                    <div class="permission-grid">
 
-        <label>Minimum Quantity:</label>
-        <input type="number" name="minQuantity" min="1" required>
+                        <label class="permission-item">
+                            <input type="checkbox" name="autoClose">
+                            <span>Auto Close</span>
+                        </label>
 
-        <br><br>
+                        <label class="permission-item">
+                            <input type="checkbox" name="allowEarlyClose">
+                            <span>Allow Early Close</span>
+                        </label>
 
-        <label>Available From:</label>
-        <input type="date" name="availableFrom" required>
+                        <label class="permission-item">
+                            <input type="checkbox" name="allowPause">
+                            <span>Allow Pause</span>
+                        </label>
 
-        <br><br>
+                        <label class="permission-item">
+                            <input type="checkbox" name="allowRenew">
+                            <span>Allow Renew</span>
+                        </label>
 
-        <label>Available Until:</label>
-        <input type="date" name="availableUntil" required>
+                    </div>
+                </div>
 
-        <br><br>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Add Plan</button>
+                </div>
 
-        <label>
-            <input type="checkbox" name="autoClose">
-            Auto Close
-        </label>
+            </form>
+        </section>
 
-        <br>
-
-        <label>
-            <input type="checkbox" name="allowEarlyClose">
-            Allow Early Close
-        </label>
-
-        <br>
-
-        <label>
-            <input type="checkbox" name="allowPause">
-            Allow Pause
-        </label>
-
-        <br>
-
-        <label>
-            <input type="checkbox" name="allowRenew">
-            Allow Renew
-        </label>
-
-        <br><br>
-
-        <button type="submit">Add Plan</button>
-
-    </form>
-
-    <hr>
-
-    <a th:href="@{/logout}">Logout</a>
+    </main>
 
 </body>
 </html>
