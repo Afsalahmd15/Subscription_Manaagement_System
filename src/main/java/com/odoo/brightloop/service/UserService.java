@@ -12,24 +12,18 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public enum LoginStatus {
-        EMAIL_DOES_NOT_EXISTS,
-        WRONG_PASSWORD,
-        LOGIN_SUCCESS
-    }
-
-    public LoginStatus login(String emailId, String password) {
+    public UserModel login(String emailId, String password) {
 
         UserModel user = userRepository.findByEmail(emailId);
 
         if (user == null) {
-            return LoginStatus.EMAIL_DOES_NOT_EXISTS;
+            return null;
         }
 
         if (!user.getPassword().equals(password)) {
-            return LoginStatus.WRONG_PASSWORD;
+            return null;
         }
 
-        return LoginStatus.LOGIN_SUCCESS;
+        return user;
     }
 }
