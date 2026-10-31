@@ -9,7 +9,7 @@
 
     <h2>Customer Registration</h2>
 
-	<form th:action="@{/register}" method="post">
+    <form th:action="@{/register}" method="post">
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
@@ -19,10 +19,22 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <br><br>
+        <input type="checkbox" id="showPassword">
+        <label for="showPassword">Show Password</label>
+
+        <ul>
+            <li id="length">At least 9 characters</li>
+            <li id="uppercase">One uppercase letter (A-Z)</li>
+            <li id="lowercase">One lowercase letter (a-z)</li>
+            <li id="special">One special character (@, #, $, !)</li>
+        </ul>
 
         <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <input type="password" id="confirmPassword"
+               name="confirmPassword" required>
+
+        <input type="checkbox" id="showConfirmPassword">
+        <label for="showConfirmPassword">Show Password</label>
 
         <br><br>
 
@@ -32,12 +44,71 @@
 
     <p>
         Already have an account?
-		<a th:href="@{/}">Login</a>
+        <a th:href="@{/}">Login</a>
     </p>
 
-</body>
+    <script>
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmPassword");
+        const form = document.querySelector("form");
+
+        // Show or hide password
+        document.getElementById("showPassword")
+            .addEventListener("change", function () {
+                password.type = this.checked ? "text" : "password";
+            });
+
+        // Show or hide confirm password
+        document.getElementById("showConfirmPassword")
+            .addEventListener("change", function () {
+                confirmPassword.type = this.checked ? "text" : "password";
+            });
+
+        // Password requirements validation
+        password.addEventListener("input", function () {
+
+            const value = password.value;
+
+            document.getElementById("length").style.color =
+                value.length >= 9 ? "green" : "red";
+
+            document.getElementById("uppercase").style.color =
+                /[A-Z]/.test(value) ? "green" : "red";
+
+            document.getElementById("lowercase").style.color =
+                /[a-z]/.test(value) ? "green" : "red";
+
+            document.getElementById("special").style.color =
+                /[^a-zA-Z0-9]/.test(value) ? "green" : "red";
+        });
+
+        // Validate before submitting
+        form.addEventListener("submit", function (event) {
+
+            const value = password.value;
+
+            const valid =
+                value.length >= 9 &&
+                /[A-Z]/.test(value) &&
+                /[a-z]/.test(value) &&
+                /[^a-zA-Z0-9]/.test(value);
+
+            if (!valid) {
+                event.preventDefault();
+                alert("Please satisfy all password requirements!");
+                return;
+            }
+
+            if (value !== confirmPassword.value) {
+                event.preventDefault();
+                alert("Passwords do not match!");
+            }
+        });
+    </script>
+
     <script th:if="${registerFailed}">
         alert("[[${registerFailed}]]");
     </script>
-</html>
 
+</body>
+</html>
