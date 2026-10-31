@@ -13,7 +13,7 @@ public class UserRepository {
     public UserModel findUserByEmail(
         String email
     ) {
-        String query = "select * from users where emailid = ?;";
+        String query = "select * from users where email = ?;";
         try(
             Connection conn = DBConnection.getConnection();
             PreparedStatement ps = conn.prepareStatement(query);
@@ -23,8 +23,8 @@ public class UserRepository {
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 UserModel user = new UserModel();
-                user.setUserId(rs.getInt("userid"));
-                user.setEmailId(rs.getString("emailid"));
+                user.setUserId(rs.getInt("user_id"));
+                user.setEmailId(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
 
