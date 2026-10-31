@@ -42,7 +42,7 @@ public class UserController {
 
 		if (user.getRole().equals("ADMIN")) {
 
-			return "redirect:/admin";
+			return "redirect:/adminPage";
 		}
 
         return "redirect:/home";
@@ -83,13 +83,13 @@ public class UserController {
 		return "register";
 	}
 
-	@GetMapping("/admin")
+	@GetMapping("/adminPage")
 	public String adminDashboard(HttpSession session) {
 
 		if (!"ADMIN".equals(session.getAttribute("role"))) {
 			return "redirect:/";
 		}
 
-		return "admin";
+		return "adminPage";
 	}
 }

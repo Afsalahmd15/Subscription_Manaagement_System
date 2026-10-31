@@ -36,7 +36,7 @@
                 <p>Create a new product and configure its variants.</p>
             </div>
 
-            <form th:action="@{/}" method="post" class="admin-form">
+			<form th:action="@{/admin/products}" method="post" class="admin-form">
 
                 <div class="form-grid">
 
@@ -123,8 +123,7 @@
                 <p>Configure pricing, billing intervals and subscription rules.</p>
             </div>
 
-            <form th:action="@{/}" method="post" class="admin-form">
-
+            <form th:action="@{/admin/plans}" method="post" class="admin-form">
                 <div class="form-grid">
 
                     <div class="form-group full-width">
