@@ -14,7 +14,7 @@ public class UserService {
 
     public enum LoginStatus {
         EMAIL_DOES_NOT_EXISTS,
-        WRONT_PASSWORD,
+        WRONG_PASSWORD,
         LOGIN_SUCCESS
     }
 
@@ -27,7 +27,7 @@ public class UserService {
         }
 
         if (!user.getPassword().equals(password)) {
-            return LoginStatus.WRONT_PASSWORD;
+            return LoginStatus.WRONG_PASSWORD;
         }
 
         return LoginStatus.LOGIN_SUCCESS;
