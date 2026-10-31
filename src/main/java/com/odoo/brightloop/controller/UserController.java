@@ -40,7 +40,7 @@ public class UserController {
         session.setAttribute("emailId", user.getEmailId());
         session.setAttribute("role", user.getRole());
 
-        return "redirect:/home";
+        return "home";
     }
 
     @GetMapping("/home")
