@@ -77,4 +77,16 @@ public class UserController {
 
 		return "register";
 	}
+
+	@GetMapping("/admin")
+	public String adminDashboard(HttpSession session, Model model) {
+
+		if (!"ADMIN".equals(session.getAttribute("role"))) {
+			return "redirect:/";
+		}
+
+		model.addAttribute("products", productService.getAllProducts());
+
+		return "admin/admin";
+	}
 }

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Brightloop Admin Dashboard</title>
+</head>
+<body>
+
+    <h1>Admin Dashboard</h1>
+
+    <p>Welcome, Admin!</p>
+
+    <hr>
+
+    <!-- ADD PRODUCT -->
+    <h2>Add Product</h2>
+
+    <form th:action="@{/admin/products/add}" method="post">
+
+        <label>Product Name:</label>
+        <input type="text" name="name" required>
+
+        <br><br>
+
+        <label>Product Type:</label>
+        <input type="text" name="type" required>
+
+        <br><br>
+
+        <label>Sales Price:</label>
+        <input type="number" name="salesPrice" step="0.01" required>
+
+        <br><br>
+
+        <label>Cost Price:</label>
+        <input type="number" name="costPrice" step="0.01" required>
+
+        <br><br>
+
+        <label>Notes:</label>
+        <textarea name="notes"></textarea>
+
+        <br><br>
+
+        <h3>Product Variant</h3>
+
+        <label>Variant Name:</label>
+        <input type="text" name="variantName" placeholder="Brand">
+
+        <br><br>
+
+        <label>Variant Value:</label>
+        <input type="text" name="variantValue" placeholder="Odoo">
+
+        <br><br>
+
+        <label>Additional Price:</label>
+        <input type="number" name="additionalPrice" step="0.01" value="0">
+
+        <br><br>
+
+        <button type="submit">Add Product</button>
+
+    </form>
+
+    <hr>
+
+    <!-- ADD PLAN -->
+    <h2>Add Subscription Plan</h2>
+
+    <form th:action="@{/admin/plans/add}" method="post">
+
+        <label>Select Product:</label>
+        <select name="productId" required>
+            <option value="">Select Product</option>
+            <option th:each="product : ${products}"
+                    th:value="${product.id}"
+                    th:text="${product.name}">
+            </option>
+        </select>
+
+        <br><br>
+
+        <label>Plan Price:</label>
+        <input type="number" name="price" step="0.01" required>
+
+        <br><br>
+
+        <label>Billing Interval:</label>
+        <select name="billingInterval" required>
+            <option value="DAILY">Daily</option>
+            <option value="WEEKLY">Weekly</option>
+            <option value="MONTHLY">Monthly</option>
+            <option value="YEARLY">Yearly</option>
+        </select>
+
+        <br><br>
+
+        <label>Minimum Quantity:</label>
+        <input type="number" name="minQuantity" min="1" required>
+
+        <br><br>
+
+        <label>Available From:</label>
+        <input type="date" name="availableFrom" required>
+
+        <br><br>
+
+        <label>Available Until:</label>
+        <input type="date" name="availableUntil" required>
+
+        <br><br>
+
+        <label>
+            <input type="checkbox" name="autoClose">
+            Auto Close
+        </label>
+
+        <br>
+
+        <label>
+            <input type="checkbox" name="allowEarlyClose">
+            Allow Early Close
+        </label>
+
+        <br>
+
+        <label>
+            <input type="checkbox" name="allowPause">
+            Allow Pause
+        </label>
+
+        <br>
+
+        <label>
+            <input type="checkbox" name="allowRenew">
+            Allow Renew
+        </label>
+
+        <br><br>
+
+        <button type="submit">Add Plan</button>
+
+    </form>
+
+    <hr>
+
+    <a th:href="@{/logout}">Logout</a>
+
+</body>
+</html>
