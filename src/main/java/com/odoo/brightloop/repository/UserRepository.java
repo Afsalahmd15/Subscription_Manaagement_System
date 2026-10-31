@@ -40,29 +40,4 @@ public class UserRepository {
         }
         return null;
     }
-
-    public boolean regUser(
-        String email, String password
-    ) {
-
-        String query = "INSERT INTO users (email, password) VALUES (?, ?)";
-
-        try (
-            Connection conn = DBConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(query)
-        ) {
-
-            ps.setString(1, email);
-            ps.setString(2, password);
-
-            int rows = ps.executeUpdate();
-
-            return rows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 }
